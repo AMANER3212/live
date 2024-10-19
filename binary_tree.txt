@@ -1,0 +1,48 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class Tree:
+    def __init__(self, root):
+        self.root = Node(root)
+
+    # Inorder Traversal: Left -> Root -> Right
+    def inorder(self, start, traversal):
+        if start:
+            traversal = self.inorder(start.left, traversal)
+            traversal += str(start.data) + " "
+            traversal = self.inorder(start.right, traversal)
+        return traversal
+
+    # Postorder Traversal: Left -> Right -> Root
+    def postorder(self, start, traversal):
+        if start:
+            traversal = self.postorder(start.left, traversal)
+            traversal = self.postorder(start.right, traversal)
+            traversal += str(start.data) + " "
+        return traversal
+
+    # Preorder Traversal: Root -> Left -> Right
+    def preorder(self, start, traversal):
+        if start:
+            traversal += str(start.data) + " "
+            traversal = self.preorder(start.left, traversal)
+            traversal = self.preorder(start.right, traversal)
+        return traversal
+
+# Construct the binary tree
+t = Tree(3)
+t.root.left = Node(6)
+t.root.right = Node(7)
+t.root.left.left = Node(2)
+t.root.left.right = Node(3)
+
+# Perform traversals
+print("Inorder Traversal:", t.inorder(t.root, ""))
+print("Preorder Traversal:", t.preorder(t.root, ""))
+print("Postorder Traversal:", t.postorder(t.root, ""))
+
+
+

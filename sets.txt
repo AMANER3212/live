@@ -1,0 +1,78 @@
+import csv
+
+# Function to load books from a CSV file into a set
+def load_books(filename):
+    books_set = set()
+    with open(filename, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            book = (row["Author"], row["Title"])
+            books_set.add(book)
+    return books_set
+
+# Function to display the books set
+def display(books_set, description):
+    print(description)
+    for book in books_set:
+        print(f"Author: {book[0]} Title: {book[1]}")
+    print()
+
+# Load books from "Book1.csv"
+books = load_books("Book1.csv")
+display(books, "Here are the books")
+
+# Add and discard books
+books.add(("Author4", "Title4"))
+display(books, "Books after adding")
+books.discard(("Author4", "Title4"))
+display(books, "Books after discarding")
+
+# Load books from "Book2.csv"
+books1 = load_books("Book2.csv")
+display(books1, "Here are books2")
+
+# Union of books and books1
+books3 = books.union(books1)
+display(books3, "Union")
+
+# Intersection of books and books1
+books3 = books.intersection(books1)
+display(books3, "Intersection")
+
+# Difference between books and books1
+books3 = books - books1
+display(books3, "Difference")
+
+# Symmetric difference between books and books1
+books3 = books1.symmetric_difference(books)
+display(books3, "Symmetric difference")
+
+# Additional set operations for s1 and s2
+s1 = {1, 2, 3, 4, 5}
+s2 = {1, 2}
+s2.add(5)
+print(s2)
+s2.discard(2)
+print(s2)
+
+# Symmetric difference between s1 and s2
+print("Symmetric difference")
+print(s1 ^ s2)
+print(s1.symmetric_difference(s2))
+
+# Difference between s1 and s2
+print("Difference")
+print(s1 - s2)
+print(s1.difference(s2))
+
+# Union of s1 and s2
+print("Union")
+print(s1 | s2)
+print(s1.union(s2))
+
+# Intersection of s1 and s2
+print("Intersection")
+print(s1 & s2)
+print(s1.intersection(s2))
+
+

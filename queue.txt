@@ -1,0 +1,125 @@
+# Queue using Linked List
+class Node:
+    def __init__(self, data):
+        self.next = None
+        self.data = data
+
+class Q:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+        self.size = 0
+
+    def enqueue(self, data):
+        new_node = Node(data)
+        if self.rear is None:
+            self.front = new_node
+        else:
+            self.rear.next = new_node
+        self.rear = new_node
+        self.size += 1
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty")
+            return None
+        removed = self.front.data
+        if self.front is self.rear:
+            self.front = None
+            self.rear = None
+        else:
+            self.front = self.front.next
+        self.size -= 1
+        return removed
+
+    def get_rear(self):
+        if self.rear is None:
+            return None
+        else:
+            return self.rear.data
+
+    def get_front(self):
+        if self.front is None:
+            return None
+        else:
+            return self.front.data
+
+    def is_empty(self):
+        return self.size == 0
+
+# Testing Queue using Linked List
+nq = Q()
+nq.enqueue(10)
+nq.enqueue(20)
+nq.enqueue(30)
+print("Dequeue:", nq.dequeue())  # Expected: 10
+print("Rear:", nq.get_rear())  # Expected: 30
+print("Front:", nq.get_front())  # Expected: 20
+
+# Circular Queue using array
+class Queue:
+    def __init__(self):
+        self.head = -1
+        self.tail = -1
+        self.maxsize = 3
+        self.queue = [None for _ in range(self.maxsize)]
+
+    def enqueue(self, data):
+        if (self.tail + 1) % self.maxsize == self.head:
+            print("Queue is full")
+        else:
+            if self.head == -1:
+                self.head = 0
+            self.tail = (self.tail + 1) % self.maxsize
+            self.queue[self.tail] = data
+
+    def dequeue(self):
+        if self.head == -1:
+            print("Queue is empty")
+            return None
+        data = self.queue[self.head]
+        if self.head == self.tail:  # Only one element left
+            self.head = -1
+            self.tail = -1
+        else:
+            self.head = (self.head + 1) % self.maxsize
+        return data
+
+    def show(self):
+        if self.head == -1:
+            print("Queue is empty")
+            return
+        if self.tail >= self.head:
+            for i in range(self.head, self.tail + 1):
+                print(self.queue[i], end=" ")
+        else:
+            for i in range(self.head, self.maxsize):
+                print(self.queue[i], end=" ")
+            for i in range(0, self.tail + 1):
+                print(self.queue[i], end=" ")
+        print()
+
+    def size(self):
+        if self.head == -1:
+            return 0
+        elif self.tail >= self.head:
+            return self.tail - self.head + 1
+        else:
+            return self.maxsize - (self.head - self.tail - 1)
+
+# Testing Circular Queue
+q = Queue()
+q.enqueue(10)
+q.enqueue(20)
+q.enqueue(30)
+q.show()  # Expected: 10 20 30
+print("Dequeue:", q.dequeue())  # Expected: 10
+q.enqueue(40)
+q.show()  # Expected: 20 30 40
+print("Dequeue:", q.dequeue())  # Expected: 20
+print("Dequeue:", q.dequeue())  # Expected: 30
+print("Dequeue:", q.dequeue())  # Expected: 40
+q.show()  # Expected: Queue is empty
+
+
+

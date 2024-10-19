@@ -1,0 +1,47 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    # Push an item onto the stack
+    def push(self, item):
+        self.stack.append(item)
+    
+    # Pop an item from the stack
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        else:
+            print("Stack is empty")
+    
+    # Check if the stack is empty
+    def is_empty(self):
+        return len(self.stack) == 0
+    
+    # Return the size of the stack (is_full renamed for clarity)
+    def size(self):
+        return len(self.stack)
+    
+    # Return the top item of the stack without removing it
+    def top(self):
+        if not self.is_empty():
+            return self.stack[-1]
+        else:
+            print("Stack is empty")
+
+# Example usage of the Stack class
+s = Stack()
+s.push(10)
+s.push(20)
+s.push(30)
+
+# Print the top element of the stack
+print(s.top())  # Output: 30
+
+# Pop an item from the stack
+s.pop()
+
+# Print the top element of the stack after popping
+print(s.top())  # Output: 20
+
+
+

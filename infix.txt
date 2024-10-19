@@ -1,0 +1,89 @@
+# Stack class
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, item):
+        self.stack.append(item)
+    
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        else:
+            print("Stack is empty")
+    
+    def is_empty(self):
+        return len(self.stack) == 0
+    
+    def top(self):
+        if not self.is_empty():
+            return self.stack[-1]
+        else:
+            print("Stack is empty")
+
+# Infix to Postfix conversion function
+def infix_post(expression):
+    s = Stack()  # Initialize a new Stack instance
+    output = []
+    precedence = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
+    associativity = {"+": "L", "-": "L", "*": "L", "/": "L", "^": "R"} 
+
+    for char in expression:
+        if char.isalnum():
+            output.append(char)
+        elif char == "(":
+            s.push(char)
+        elif char == ")":
+            while not s.is_empty() and s.top() != "(":
+                output.append(s.pop())
+            s.pop()
+        else:  # Operator case
+            while (not s.is_empty() and s.top() != "(" and
+                   (precedence.get(char, 0) < precedence.get(s.top(), 0) or
+                    (precedence.get(char, 0) == precedence.get(s.top(), 0) and associativity[char] == "L"))):
+                output.append(s.pop())
+            s.push(char)
+
+    while not s.is_empty():
+        output.append(s.pop())
+
+    return ''.join(output)
+
+# Test Infix to Postfix
+x = infix_post("a+b*(c/d^e^f)*(a-b)/c")
+print(x)  # Output will be the postfix notation
+
+# Function to evaluate postfix expression
+def evaluate(expression):
+    s = Stack()  # Initialize a new Stack instance
+    exp = expression.split()
+    n = len(exp)
+
+    for i in range(n):
+        if exp[i].isdigit():
+            s.push(exp[i])
+        elif exp[i] == "+":
+            a = s.pop()
+            b = s.pop()
+            s.push(int(a) + int(b))
+        elif exp[i] == "-":
+            a = s.pop()
+            b = s.pop()
+            s.push(int(b) - int(a))  # Note the order of subtraction
+        elif exp[i] == "*":
+            a = s.pop()
+            b = s.pop()
+            s.push(int(a) * int(b))
+        else:
+            a = s.pop()
+            b = s.pop()
+            s.push(int(b) / int(a))  # Note the order of division
+
+    return s.pop()
+
+# Test Postfix Evaluation
+x = evaluate("8 6 9 * +")  # Postfix expression: "8 + (6 * 9)"
+print(x)  # Expected output: 62
+
+
+

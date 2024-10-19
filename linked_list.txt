@@ -1,0 +1,99 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class Linked_List:
+    def __init__(self):
+        self.head = None
+
+    # Add node at the end
+    def add(self, data):
+        new = Node(data)
+        if self.head is None:
+            self.head = new
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new
+
+    # Delete node by key
+    def delete(self, key):
+        current = self.head
+
+        # Case: list is empty
+        if self.head is None:
+            return
+
+        # Case: key is at the head
+        elif current and current.data == key:
+            self.head = current.next
+            return
+
+        # Traverse to find the node to delete
+        while current.next and current.next.data != key:
+            current = current.next
+
+        if current.next:
+            current.next = current.next.next
+
+    # Display all nodes
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end="-->")
+            current = current.next
+        print("None")
+
+# Test Linked_List class
+l = Linked_List()
+l.add(10)
+l.add(20)
+l.add(30)
+l.add(40)
+l.delete(40)  # Deletes node with data 40
+l.display()   # Expected output: 10-->20-->30-->None
+
+# Working directly with nodes (manual insertion and deletion)
+
+# Creating nodes
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node1.next = node2
+node2.next = node3
+
+# Assigning head to node1
+head = node1
+current = head
+
+# Inserting at the start
+new_node = Node(10)
+new_node.next = head
+head = new_node  # Head is now the new node
+
+# Inserting at the end
+current = head
+while current.next:
+    current = current.next
+current.next = Node(20)
+
+# Inserting after node with value 2
+current = head
+while current and current.data != 2:
+    current = current.next
+new_node = Node(40)
+if current:
+    new_node.next = current.next
+    current.next = new_node
+
+# Display nodes
+current = head
+while current:
+    print(current.data, end="-->")
+    current = current.next
+print("None")  # Expected output: 10-->1-->2-->40-->3-->20-->None
+
+
+
